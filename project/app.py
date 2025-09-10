@@ -1,5 +1,5 @@
 from argparse import ArgumentParser
-
+import minitorch
 import streamlit as st
 from interface.streamlit_utils import get_img_tag
 from interface.train import render_train_interface
