@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import Any, Iterable, List, Tuple
 
 from typing_extensions import Protocol
+from operators import zipWith
 
 # ## Task 1.1
 # Central Difference calculation
@@ -31,9 +32,7 @@ def central_difference(f: Any, *vals: Any, arg: int = 0, epsilon: float = 1e-6) 
     f_plus = f(*arr_plus)
     f_minus = f(*arr_minus)
 
-    return minitorch.operators.zipWith(lambda a, b: (a - b) / (2 * epsilon))(
-        f_plus, f_minus
-    )
+    return zipWith(lambda a, b: (a - b) / (2 * epsilon))(f_plus, f_minus)
 
 
 variable_count = 1
