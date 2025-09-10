@@ -20,7 +20,6 @@ class Module:
     training: bool
 
     def __init__(self) -> None:
-        print("nejcnedjcnejcbejcb")
         self._modules = {}
         self._parameters = {}
         self.training = True
@@ -50,12 +49,14 @@ class Module:
             The name and `Parameter` of each ancestor parameter.
         """
         params = []
-        for p in self._parameters.items():
-            params.append(p)
 
-        for name, module in self._modules.items():
-            for name_param, value in module._parameters.items():
-                params.append(tuple([f"{name}.{name_param}", value]))
+        for name, val in self._parameters.items():
+            params.append((name, val))
+
+        for module_name, module in self._modules.items():
+            for name, val in module.named_parameters():
+                params.append((f"{module_name}.{name}", val))
+
         return params
 
     def parameters(self) -> Sequence[Parameter]:

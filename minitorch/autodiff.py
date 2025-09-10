@@ -5,7 +5,6 @@ from typing_extensions import Protocol
 
 # ## Task 1.1
 # Central Difference calculation
-from workspace.minitorch import minitorch
 
 
 def central_difference(f: Any, *vals: Any, arg: int = 0, epsilon: float = 1e-6) -> Any:

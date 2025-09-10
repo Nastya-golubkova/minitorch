@@ -48,7 +48,7 @@ def max(x: float, y: float) -> float:
         return y
 
 
-def is_close(x: float, y: float, eps: float = 1e-6) -> float:
+def is_close(x: float, y: float, eps: float = 1e-2) -> float:
     "$f(x) = |x - y| < 1e-2$"
     if abs(x - y) < eps:
         return 1.0
@@ -80,7 +80,7 @@ def relu(x: float) -> float:
 
     (See https://en.wikipedia.org/wiki/Rectifier_(neural_networks) .)
     """
-    return float(x > 0)
+    return x if x > 0 else 0.0
 
 
 EPS = 1e-6
