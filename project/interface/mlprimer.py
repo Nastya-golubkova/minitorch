@@ -42,6 +42,10 @@ class ArrowOpts:
     pass
 
 
+class Linear:
+    pass
+
+
 random.seed(10)
 
 s = minitorch.datasets["Simple"](10)
