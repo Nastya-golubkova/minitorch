@@ -5,6 +5,7 @@ from typing_extensions import Protocol
 
 # ## Task 1.1
 # Central Difference calculation
+from workspace.minitorch import minitorch
 
 
 def central_difference(f: Any, *vals: Any, arg: int = 0, epsilon: float = 1e-6) -> Any:
@@ -22,8 +23,18 @@ def central_difference(f: Any, *vals: Any, arg: int = 0, epsilon: float = 1e-6) 
     Returns:
         An approximation of $f'_i(x_0, \ldots, x_{n-1})$
     """
-    # TODO: Implement for Task 1.1.
-    raise NotImplementedError("Need to implement for Task 1.1")
+    arr_plus = list(vals)
+    arr_minus = list(vals)
+
+    arr_plus[arg] += epsilon
+    arr_minus[arg] -= epsilon
+
+    f_plus = f(*arr_plus)
+    f_minus = f(*arr_minus)
+
+    return minitorch.operators.zipWith(lambda a, b: (a - b) / (2 * epsilon))(
+        f_plus, f_minus
+    )
 
 
 variable_count = 1

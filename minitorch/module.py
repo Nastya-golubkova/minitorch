@@ -20,6 +20,7 @@ class Module:
     training: bool
 
     def __init__(self) -> None:
+        print("nejcnedjcnejcbejcb")
         self._modules = {}
         self._parameters = {}
         self.training = True
@@ -32,14 +33,14 @@ class Module:
     def train(self) -> None:
         "Set the mode of this module and all descendent modules to `train`."
         self.training = True
-        for desc_modules in self._modules.values():
-            desc_modules.training = True
+        for module in self._modules.values():
+            module.train()
 
     def eval(self) -> None:
-        "Set the mode of this module and all descendent modules to `eval`."
+        "Set the mode of this module and all descendent modules to eval."
         self.training = False
-        for desc_modules in self._modules.values():
-            desc_modules.training = False
+        for desc_module in self._modules.values():
+            desc_module.eval()
 
     def named_parameters(self) -> Sequence[Tuple[str, Parameter]]:
         """
