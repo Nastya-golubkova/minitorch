@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Any, Iterable, List, Tuple
 
 from typing_extensions import Protocol
-from operators import zipWith
+from .operators import zipWith
 
 # ## Task 1.1
 # Central Difference calculation
