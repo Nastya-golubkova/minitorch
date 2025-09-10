@@ -17,6 +17,31 @@ from drawing import aqua, black, lightblue, lightred, white, blue
 
 import minitorch
 
+
+def hstrut(*args, **kwargs):
+    pass
+
+
+def vstrut(*args, **kwargs):
+    pass
+
+
+def text(*args, **kwargs):
+    pass
+
+
+def circle(*args, **kwargs):
+    pass
+
+
+def concat(*args, **kwargs):
+    pass
+
+
+class ArrowOpts:
+    pass
+
+
 random.seed(10)
 
 s = minitorch.datasets["Simple"](10)
