@@ -1,5 +1,6 @@
 import random
-
+from diagrams import P2, V2
+from pathlib import Path
 import chalk as ch
 from chalk import (
     Trail,
@@ -12,7 +13,7 @@ from chalk import (
     unit_y,
 )
 from colour import Color
-from drawing import aqua, black, lightblue, lightred
+from drawing import aqua, black, lightblue, lightred, white, blue
 
 import minitorch
 
@@ -183,11 +184,11 @@ def with_points(pts1, pts2, b):
 
 def graph(fn, xs=[], os=[], width=4, offset=0, c=Color("red")):
     "Draw a graph with points on it"
-    path = []
+    path1 = []
     m = 0
     for a in range(100):
         a = width * ((a / 100) - 0.5) - offset
-        path.append((a, fn(a)))
+        path1.append((a, fn(a)))
         m = max(m, fn(a))
     dia = (
         make_path([(0, 0), (0, m)])
@@ -205,13 +206,13 @@ def graph(fn, xs=[], os=[], width=4, offset=0, c=Color("red")):
 def show_loss(full_loss):
     d = empty()
     scores = []
-    path = []
+    path1 = []
     i = 0
     for j, b in enumerate(range(20)):
         b = -1.7 + b / 20
         m = Linear(1, 1, b)
         pt = (b, full_loss(m))
-        path.append(pt)
+        path1.append(pt)
         if j % 5 == 0:
             d = d | hstrut(0.5) | show(m).named(("graph", i))
             p = circle(0.01).translate(pt[0], pt[1]).fill_color(black)
