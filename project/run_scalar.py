@@ -3,7 +3,10 @@ Be sure you have minitorch installed in you Virtual Env.
 >>> pip install -Ue .
 """
 import random
+import sys
+import os
 
+# sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import minitorch
 
 
@@ -109,8 +112,14 @@ class ScalarTrain:
 
 
 if __name__ == "__main__":
-    PTS = 50
+    """PTS = 50
     HIDDEN = 2
     RATE = 0.5
     data = minitorch.datasets["Simple"](PTS)
-    ScalarTrain(HIDDEN).train(data, RATE)
+    ScalarTrain(HIDDEN).train(data, RATE)"""
+    PTS = 50
+    DATASET = minitorch.datasets["Xor"](PTS)
+
+    HIDDEN = 10
+    RATE = 0.5
+    ScalarTrain(HIDDEN).train(DATASET, RATE)

@@ -21,7 +21,7 @@ def scalars(
     draw: DrawFn, min_value: float = -100000, max_value: float = 100000
 ) -> Scalar:
     val = draw(floats(min_value=min_value, max_value=max_value))
-    return minitorch.Scalar(val)
+    return Scalar(val)
 
 
 small_scalars = scalars(min_value=-100, max_value=100)
@@ -105,6 +105,7 @@ def test_one_derivative(
     fn: Tuple[str, Callable[[float], float], Callable[[Scalar], Scalar]], t1: Scalar
 ) -> None:
     name, _, scalar_fn = fn
+    # print('Скалярная функция, t1',scalar_fn, t1)
     derivative_check(scalar_fn, t1)
 
 

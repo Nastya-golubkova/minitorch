@@ -1,6 +1,6 @@
 # MODULE 0
 # MODULE 1
-import minitorch.scalar_functions as scalar_functions  # noqa: F401,F403
+# import minitorch.scalar_functions as scalar_functions  # noqa: F401,F403
 
 from .autodiff import *  # noqa: F401,F403
 from .cuda_ops import *  # noqa: F401,F403
@@ -10,6 +10,7 @@ from .fast_conv import *  # noqa: F401,F403
 # MODULE 3
 from .fast_ops import *  # noqa: F401,F403
 from .module import *  # noqa: F401,F403
+
 
 # MODULE 4
 from .nn import *  # noqa: F401,F403

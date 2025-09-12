@@ -1,7 +1,10 @@
 from dataclasses import dataclass
-from typing import Any, Iterable, List, Tuple
+from typing import Any, Iterable, List, Tuple, runtime_checkable
 
 from typing_extensions import Protocol
+
+# from .scalar import Scalar
+# from .scalar import Scalar
 from .operators import zipWith
 
 # ## Task 1.1
@@ -32,12 +35,13 @@ def central_difference(f: Any, *vals: Any, arg: int = 0, epsilon: float = 1e-6) 
     f_plus = f(*arr_plus)
     f_minus = f(*arr_minus)
 
-    return zipWith(lambda a, b: (a - b) / (2 * epsilon))(f_plus, f_minus)
+    return (f_plus - f_minus) / (2 * epsilon)
 
 
 variable_count = 1
 
 
+@runtime_checkable
 class Variable(Protocol):
     def accumulate_derivative(self, x: Any) -> None:
         pass
@@ -70,8 +74,21 @@ def topological_sort(variable: Variable) -> Iterable[Variable]:
     Returns:
         Non-constant Variables in topological order starting from the right.
     """
-    # TODO: Implement for Task 1.4.
-    raise NotImplementedError("Need to implement for Task 1.4")
+
+    def visit(v: Variable):
+        if v in visited:
+            return
+        visited.add(v)
+        if v.history is not None:
+            for node in v.history.inputs:
+                if node not in visited:
+                    visit(node)
+        L.append(v)
+
+    L = []
+    visited = set()
+    visit(variable)
+    return L
 
 
 def backpropagate(variable: Variable, deriv: Any) -> None:
@@ -85,8 +102,20 @@ def backpropagate(variable: Variable, deriv: Any) -> None:
 
     No return. Should write to its results to the derivative values of each leaf through `accumulate_derivative`.
     """
-    # TODO: Implement for Task 1.4.
-    raise NotImplementedError("Need to implement for Task 1.4")
+    topo_order = topological_sort(variable)
+    grads: dict[int, float] = {variable.unique_id: deriv}
+    for v in reversed(topo_order):
+        d_output = grads.get(v.unique_id, 0.0)
+        """print(f'{d_output=}')
+        print(f'{v.history=}')
+        print(f'{v=}')"""
+        if v.history.last_fn is None:
+            v.accumulate_derivative(d_output)
+            # print(f'{v=}, {d_output=}')
+        else:
+            for parent, d_input in v.chain_rule(d_output):
+                grads[parent.unique_id] = grads.get(parent.unique_id, 0.0) + d_input
+        # print(grads)
 
 
 @dataclass
