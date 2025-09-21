@@ -120,6 +120,11 @@ def relu_back(x: float, d: float) -> float:
         return 0.0
 
 
+def abs(x: float) -> float:
+    "Abs for elements"
+    return x if x >= 0.0 else -x
+
+
 # ## Task 0.3
 
 # Small practice library of elementary higher-order functions.

@@ -54,7 +54,9 @@ def test_one_derivative(
     fn: Tuple[str, Callable[[float], float], Callable[[Tensor], Tensor]], t1: Tensor
 ) -> None:
     "Test the gradient of a one-arg tensor function"
+
     name, _, tensor_fn = fn
+    print(f"test {name=}, {tensor_fn=}")
     grad_check(tensor_fn, t1)
 
 

@@ -144,6 +144,9 @@ class Tensor:
         return c
 
     # Functions
+    def __hash__(self):
+        return self.unique_id
+
     def __add__(self, b: TensorLike) -> Tensor:
         return Add.apply(self, self._ensure_tensor(b))
 

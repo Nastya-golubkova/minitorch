@@ -162,6 +162,11 @@ class Scalar:
         return self.history.inputs
 
     def chain_rule(self, d_output: Any) -> Iterable[Tuple[Variable, Any]]:
+        """
+        One bacward step for an output
+        :param d_output: derrivative from output
+        :return: list of pairs of derivatives for each input
+        """
         h = self.history
         if h is None or h.last_fn is None:
             return []
@@ -188,7 +193,7 @@ class Scalar:
         """
         if d_output is None:
             d_output = 1.0
-        # print(f'Запускаем бэкворд для{self}')
+
         backpropagate(self, d_output)
 
 

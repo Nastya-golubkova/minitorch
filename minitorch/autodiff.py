@@ -102,6 +102,8 @@ def backpropagate(variable: Variable, deriv: Any) -> None:
 
     No return. Should write to its results to the derivative values of each leaf through `accumulate_derivative`.
     """
+    print(f"{variable=}")
+    print(f"{deriv=}")
     topo_order = topological_sort(variable)
     grads: dict[int, float] = {variable.unique_id: deriv}
     for v in reversed(topo_order):

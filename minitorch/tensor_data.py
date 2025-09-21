@@ -42,9 +42,10 @@ def index_to_position(index: Index, strides: Strides) -> int:
     Returns:
         Position in storage
     """
-
-    # TODO: Implement for Task 2.1.
-    raise NotImplementedError("Need to implement for Task 2.1")
+    pos = 0
+    for i, s in zip(index, strides):
+        pos += i * s
+    return pos
 
 
 def to_index(ordinal: int, shape: Shape, out_index: OutIndex) -> None:
@@ -60,8 +61,9 @@ def to_index(ordinal: int, shape: Shape, out_index: OutIndex) -> None:
         out_index : return index corresponding to position.
 
     """
-    # TODO: Implement for Task 2.1.
-    raise NotImplementedError("Need to implement for Task 2.1")
+    for i in reversed(range(len(shape))):
+        out_index[i] = ordinal % shape[i]
+        ordinal //= shape[i]
 
 
 def broadcast_index(
@@ -83,8 +85,25 @@ def broadcast_index(
     Returns:
         None
     """
-    # TODO: Implement for Task 2.2.
-    raise NotImplementedError("Need to implement for Task 2.2")
+    diff = len(big_shape) - len(shape)
+    padded_shape = (1,) * diff + tuple(shape)  # add (1, ) to head
+
+    temp_index = []
+
+    for i, (b_idx, b_dim, s_dim) in enumerate(zip(big_index, big_shape, padded_shape)):
+        if s_dim == b_dim:
+            temp_index.append(b_idx)  # если совпадает, значит этот индекс нам нужен
+        elif s_dim == 1:
+            temp_index.append(
+                0
+            )  # если равно 1, значит было растяжение по этой оси и она фиктивная
+        else:
+            raise IndexingError
+
+    for i in range(len(shape)):
+        out_index[i] = temp_index[
+            i + diff
+        ]  # делаем срез - нам нужны индексы только осей из маленького тензора
 
 
 def shape_broadcast(shape1: UserShape, shape2: UserShape) -> UserShape:
@@ -101,8 +120,25 @@ def shape_broadcast(shape1: UserShape, shape2: UserShape) -> UserShape:
     Raises:
         IndexingError : if cannot broadcast
     """
-    # TODO: Implement for Task 2.2.
-    raise NotImplementedError("Need to implement for Task 2.2")
+    len1, len2 = len(shape1), len(shape2)
+    # rule 1
+    if len1 < len2:
+        shape1 = (1,) * (len2 - len1) + shape1  # rule 3 - add to the head
+    elif len2 < len1:
+        shape2 = (1,) * (len1 - len2) + shape2  # rule 3 - add to the head
+
+    broadcast_shape = []
+    for el1, el2 in zip(shape1, shape2):
+        if el1 == el2:
+            broadcast_shape.append(el1)
+        # rule 1
+        elif el1 == 1:
+            broadcast_shape.append(el2)
+        elif el2 == 1:
+            broadcast_shape.append(el1)
+        else:
+            raise IndexingError
+    return tuple(broadcast_shape)
 
 
 def strides_from_shape(shape: UserShape) -> UserStrides:
@@ -227,8 +263,9 @@ class TensorData:
             range(len(self.shape))
         ), f"Must give a position to each dimension. Shape: {self.shape} Order: {order}"
 
-        # TODO: Implement for Task 2.1.
-        raise NotImplementedError("Need to implement for Task 2.1")
+        new_shape = tuple(self.shape[i] for i in order)
+        new_strides = tuple(self.strides[i] for i in order)
+        return TensorData(self._storage, new_shape, new_strides)
 
     def to_string(self) -> str:
         s = ""
