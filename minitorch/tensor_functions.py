@@ -10,7 +10,6 @@ from typing import TYPE_CHECKING
 import numpy as np
 
 import minitorch
-from .tensor_ops import to_index, index_to_position, broadcast_index
 from . import operators
 from .autodiff import Context
 from .tensor_ops import SimpleBackend, TensorBackend, SimpleOps, tensor_reduce
